@@ -2,7 +2,7 @@
 CCVirtualGridList是基于Cocos Creator ScrollView + Layout 编写的一个具有**虚拟布局特点**的滚动列表控制容器。支持平滑滚动显示大量数据对象，图片元素可以实现**异步按帧加载**，**保证滚动平滑**。**具有滚动翻页功能**，**自适应宽度显示多列**，**单项选择**，**局部更新**等实用功能。
 
 Cocos Creator 引擎中提供了一个常规的滚动控制容器——ScrollView，实现基本滚动控制。但是缺少与之配合的List控件来实现虚拟布局功能，需要开发者手动扩展，在这里就提供一个实现虚拟布局功能的扩展列表控件，是参照Egret中的List控件的接口方式来实现。
-![demo_screenshot_1.png](https://upload-images.jianshu.io/upload_images/17499409-d6e60a44bb0f448c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 # 二 虚拟布局原理
 虚拟布局的原理其实很简单，就是只加载和显示可视区域的列表内容，可视区域外的并没有实体控件被实例化。以滚动事件驱动，动态滚动并复用可视区域内的列表模板，切换数据显示，看上去像一个完整的列表在上下滚动，由于此种设计实例化控件少，所以内存占用极少，所以现在被普遍应用。
@@ -141,6 +141,3 @@ initGridList(){
         this._gridListController.appendItemsToDisplayList(list);
     }
 ```
-![demo_screenshot_2.png](https://upload-images.jianshu.io/upload_images/17499409-b0a06a690969c494.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![demo_screenshot_3.png](https://upload-images.jianshu.io/upload_images/17499409-d074cedeba14f0b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![demo_screenshot_1.png](https://upload-images.jianshu.io/upload_images/17499409-d6e60a44bb0f448c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
