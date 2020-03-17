@@ -1,6 +1,8 @@
 # 一 控件介绍      
 CCVirtualGridList是基于Cocos Creator ScrollView + Layout 编写的一个具有**虚拟布局特点**的滚动列表控制容器。支持平滑滚动显示大量数据对象，图片元素可以实现**异步按帧加载**，**保证滚动平滑**。**具有滚动翻页功能**，**自适应宽度显示多列**，**单项选择**，**局部更新**等实用功能。
 
+It's a customized GridList control for cocos creator, with the virtual scrolling layout, smoothly scrolling for millions items.
+
 Cocos Creator 引擎中提供了一个常规的滚动控制容器——ScrollView，实现基本滚动控制。但是缺少与之配合的List控件来实现虚拟布局功能，需要开发者手动扩展，在这里就提供一个实现虚拟布局功能的扩展列表控件，是参照Egret中的List控件的接口方式来实现。
 
 
@@ -9,6 +11,8 @@ Cocos Creator 引擎中提供了一个常规的滚动控制容器——ScrollVie
 
 # 三 VirtualGridList 使用
 使用控件非常简单，只需要拷贝demo项目中三个文件VirtualGridList.prefab，VirtualGridList.js，VirtualGridListBaseItem.js 到您的工程中Prefabs文件夹中即可。使用之前将VirtualGridList.prefab拖入画面中, 列表单元控制组件继承 VirtualGridListBaseItem 就可以。
+
+Copy three files - VirtualGridList.prefab, VirtualGridList.js, VirtualGridListBaseItem.js  into the folder "Prefabs" of your project. Then drag "VirtualGridList.prefab" into the scene. The item template for display extends the class of VirtualGridListBaseItem.
 
 # 四 API说明
 
