@@ -116,15 +116,17 @@ var VirtualGridList = cc.Class({
         }
 
         if (this.useVirtualList) {
-            this.node.on('scrolling', this._onScrolling, this);
-            // 缓冲区域，半屏加1个item高度
-            this._bufferZone = this.node.height * 0.5 + this._itemHeight;
-
-            // 计算出需要同时绘制的数量(一屏数量 + 二行(上下各一行))
-            this._spawnCount = Math.ceil(this.node.height / this._itemHeight + 2) * this.columnNum;
-
-            this._lastContentPosY = 0;
+            this.node.on('scrolling', this._onVirtualLayoutScrolling, this);
+        } else {
+            // this.node.on('scrolling', this._onScrolling, this);
         }
+        // 缓冲区域，半屏加1个item高度
+        this._bufferZone = this.node.height * 0.5 + this._itemHeight;
+
+        // 计算出需要同时绘制的数量(一屏数量 + 二行(上下各一行))
+        this._spawnCount = Math.ceil(this.node.height / this._itemHeight + 2) * this.columnNum;
+
+        this._lastContentPosY = 0;
         this._initialized = true;
 
         // 数据列表可能在初始化完成之前进入
@@ -243,16 +245,14 @@ var VirtualGridList = cc.Class({
         }
     },
 
-    /**
-     * 滚动事件
-     */
-    _onScrolling() {
+    _onVirtualLayoutScrolling(){
         let items = this._items;
         const buffer = this._bufferZone;
         const isDown = this._content.y < this._lastContentPosY; // 滚动方向 下减上加
         const offset = (this._itemHeight + this.spacingY) * Math.ceil(items.length / this.columnNum); // 所有items 总高度
         let dataList = this._dataList;
         let comName = this.itemComponentName;
+
         // 更新每一个item位置和数据
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
@@ -261,11 +261,13 @@ var VirtualGridList = cc.Class({
             if (isDown) {
                 // 往下滑动，看下面的item，超出屏幕外下方，但是没有到top的item
                 if (viewPos.y < -buffer && item.y + offset < 0) {
-                    item.y = item.y + offset;
                     let itemCtrl = item.getComponent(comName);
+                    itemCtrl.onLeave();
+                    item.y = item.y + offset;
                     let itemIndex = itemCtrl.getItemIndex() - items.length;
                     itemCtrl.updateItem(dataList[itemIndex], itemIndex);
                     itemCtrl.dataChanged();
+                    itemCtrl.onEnter();
                 }
             } else {
                 // 往上滑动，看上面的item，超出屏幕外上方，但是没有到bottom的item
@@ -274,16 +276,16 @@ var VirtualGridList = cc.Class({
                     let itemIndex = itemCtrl.getItemIndex() + items.length;
                     // 大于总数量的不移动更新
                     if (itemIndex < this._totalCount) {
+                        itemCtrl.onLeave();
                         item.y = item.y - offset;
                         itemCtrl.updateItem(dataList[itemIndex], itemIndex);
                         itemCtrl.dataChanged();
+                        itemCtrl.onEnter();
 
                         if (itemIndex === this._totalCount - 1) {
                             this._onScrollToBottom();
                         }
                     }
-                } else {
-
                 }
             }
         }

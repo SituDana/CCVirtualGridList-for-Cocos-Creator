@@ -54,6 +54,20 @@ cc.Class({
     },
 
     /**
+     * 子类可覆盖，当控件滑动进入可视区的时候触发
+     */
+    onEnter(){
+        // console.log('on enter:' + this.$itemIndex);
+    },
+
+    /**
+     * 子类可覆盖，当控件滑动离开可视区的时候触发
+     */
+    onLeave(){
+        // console.log('on leave:' + this.$itemIndex);
+    },
+
+    /**
      * 异步加载图片
      * @param {String} pic 图片uri 
      * @param {Function} cb 加载完成之后回调方法
