@@ -62,7 +62,7 @@
         获取缓存图片
 
   ### addScrollToBottomEventHandler(handler: Function, thisObj: any): void
-        注册滚动至底部回调方法
+        注册滚动至底部回调方法 当useVirtualList=false 时不可用
 
   ### refreshItemDisplays(some?: any[]): void
         修改数据后，刷新列表显示，some代表指定刷新的对象, 不传则刷新全部。
@@ -90,6 +90,12 @@
 
   ### onUnselect(): void
         子类可覆盖方法，如果当前为选中状态，当其他单元被点选触发此事件
+
+  ### onLeave(): void
+        子类可覆盖方法，当控件滑动离开可视区的时候触发 当useVirtualList=false 时不可用
+
+  ### onEnter(): void
+        子类可覆盖方法，当控件滑动进入可视区的时候触发 当useVirtualList=false 时不可用
 
   ### loadImage(pic: String, cb: Function, thisObj: any): void
         VirtualGridList 提供的异步加载图片, 自动缓存。pic: 图片地址， cb: 图片加载后
