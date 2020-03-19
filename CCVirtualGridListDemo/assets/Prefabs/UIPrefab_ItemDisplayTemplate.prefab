@@ -46,9 +46,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 52,
-      "g": 217,
-      "b": 231,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -292,8 +292,8 @@
     "_enabled": true,
     "_materials": [],
     "_useOriginalSize": false,
-    "_string": "--啥的空间法撒旦法奥斯卡两地分居奥斯卡京东方奥斯卡的减肥刷卡的缴费萨克的积分；了萨克的积分了萨克的积分了萨克的积分拉萨的空间发沙路口的积分lsak",
-    "_N$string": "--啥的空间法撒旦法奥斯卡两地分居奥斯卡京东方奥斯卡的减肥刷卡的缴费萨克的积分；了萨克的积分了萨克的积分了萨克的积分拉萨的空间发沙路口的积分lsak",
+    "_string": "--name",
+    "_N$string": "--name",
     "_fontSize": 16,
     "_lineHeight": 18,
     "_enableWrapText": true,
