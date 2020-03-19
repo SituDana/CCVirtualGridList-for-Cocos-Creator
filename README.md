@@ -7,7 +7,7 @@ Cocos Creator 引擎中提供了一个常规的滚动控制容器——ScrollVie
 
 
 # 二 虚拟布局原理
-虚拟布局的原理其实很简单，就是只加载和显示可视区域的列表内容，可视区域外的并没有实体控件被实例化。以滚动事件驱动，动态滚动并复用可视区域内的列表模板，切换数据显示，看上去像一个完整的列表在上下滚动，由于此种设计实例化控件少，所以内存占用极少，所以现在被普遍应用。但是虚拟布局的核心不仅在于此，由于需要不停地切换显示内容，如何将素材转换的更快速，更平滑才是虚拟列表的关键。CCVirtualGridList在VirtualGridListBaseItem 中提供自己的加载图片的方法——loadImage，实现异步按帧加载，保证列表滚动流畅度，又能有效利用缓存。
+虚拟布局的原理其实很简单，就是只加载和显示可视区域的列表内容，可视区域外的并没有实体控件被实例化。以滚动事件驱动，动态滚动并复用可视区域内的列表模板，切换数据显示，看上去像一个完整的列表在上下滚动，由于此种设计实例化控件少，所以内存占用极少，drawcall数量低而且稳定，所以现在被普遍应用。但是虚拟布局的核心不仅在于此，由于需要不停地切换显示内容，如何将素材转换的更快速，更平滑才是虚拟列表的关键。CCVirtualGridList在VirtualGridListBaseItem 中提供自己的加载图片的方法——loadImage，实现异步按帧加载，保证列表滚动流畅度，又能有效利用缓存。
 
 # 三 VirtualGridList 使用
 使用控件非常简单，只需要拷贝demo项目中三个文件VirtualGridList.prefab，VirtualGridList.js，VirtualGridListBaseItem.js 到您的工程中Prefabs文件夹中即可。使用之前将VirtualGridList.prefab拖入画面中, 列表单元控制组件继承 VirtualGridListBaseItem 就可以。
