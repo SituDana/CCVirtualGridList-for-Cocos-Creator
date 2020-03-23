@@ -35,7 +35,7 @@ cc.Class({
             spacingY: 5,
             emptyTip: '什么也没有啊',
             columnNum: this._currentColumn,
-            useVirtualList: true
+            useVirtualLayout: true
         });
         this._gridListController.addScrollToBottomEventHandler(this._nextPage, this);
 

@@ -490,7 +490,7 @@
     "spacingX": 3,
     "spacingY": 3,
     "columnNum": 0,
-    "useVirtualList": true,
+    "useVirtualLayout": true,
     "cacheImage": true,
     "lbEmptyTip": {
       "__id__": 7

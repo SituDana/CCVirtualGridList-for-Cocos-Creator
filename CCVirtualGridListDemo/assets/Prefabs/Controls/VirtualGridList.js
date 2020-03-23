@@ -13,7 +13,7 @@ var VirtualGridList = cc.Class({
         spacingX: 3, // item 列间距 编辑器属性面板设置
         spacingY: 3, // item 行间距 编辑器属性面板设置
         columnNum: 0, // 列数 编辑器属性面板设置
-        useVirtualList: true, // 是否启用虚拟列表
+        useVirtualLayout: true, // 是否启用虚拟列表
         cacheImage: true, // 缓存加载的图片
         lbEmptyTip: cc.Label, // 没有数据显示提示
 
@@ -64,7 +64,7 @@ var VirtualGridList = cc.Class({
         spacingX?: Number,
         spacingY?: Number,
         columnNum?: Number,
-        useVirtualList?: Boolean,
+        useVirtualLayout?: Boolean,
         emptyTip?: cc.String
         cacheImage?: Boolean}} options
 
@@ -73,7 +73,7 @@ var VirtualGridList = cc.Class({
         spacingX: 列间距 默认为3
         spacingY: 行间距 默认为3
         columnNum: 列数 默认为0，自动适配容器宽度
-        useVirtualList: 是否启用虚拟列表 默认为true
+        useVirtualLayout: 是否启用虚拟列表 默认为true
         emptyTip: 没有数据显示提示
         cacheImage: 缓存列表中加载过的图片，控件回收后，图片缓存将被全部释放。
      */
@@ -89,7 +89,7 @@ var VirtualGridList = cc.Class({
             this.spacingX = options.spacingX === undefined ? this.spacingX : options.spacingX;
             this.spacingY = options.spacingY === undefined ? this.spacingY : options.spacingY;
             this.columnNum = options.columnNum === undefined ? this.columnNum : options.columnNum;
-            this.useVirtualList = options.useVirtualList === undefined ? this.useVirtualList : options.useVirtualList;
+            this.useVirtualLayout = options.useVirtualLayout === undefined ? this.useVirtualLayout : options.useVirtualLayout;
             this.emptyTip = options.emptyTip === undefined ? this.emptyTip : options.emptyTip;
             this.cacheImage = options.cacheImage === undefined ? true : this.cacheImage;
             this.lbEmptyTip.getComponent(cc.Label).string = this.emptyTip;
@@ -115,7 +115,7 @@ var VirtualGridList = cc.Class({
             }
         }
 
-        if (this.useVirtualList) {
+        if (this.useVirtualLayout) {
             this.node.on('scrolling', this._onVirtualLayoutScrolling, this);
         } else {
             // this.node.on('scrolling', this._onScrolling, this);
@@ -314,7 +314,7 @@ var VirtualGridList = cc.Class({
         startIndex = startIndex || 0
         // 如果总数量不足够同时创建的数量，则只创建总数量
         let fixCount = this._totalCount;
-        if (this.useVirtualList) {
+        if (this.useVirtualLayout) {
             fixCount = this._totalCount < this._spawnCount ? this._totalCount : this._spawnCount;
         }
         let dataList = this._dataList;
@@ -455,7 +455,7 @@ var VirtualGridList = cc.Class({
         let pos = cc.v2(0, y);
         this._gridList.scrollToOffset(pos, sec || 0);
 
-        if (this.useVirtualList) {
+        if (this.useVirtualLayout) {
             this._content.destroyAllChildren();
             let startIndex = itemIndex - col;
             this._createFixedIncrementItems(startIndex);
@@ -598,7 +598,7 @@ var VirtualGridList = cc.Class({
      * 回收
      */
     onDestroy() {
-        if (this.useVirtualList) {
+        if (this.useVirtualLayout) {
             this.node.off('scrolling', this._onScrolling, this);
         }
         this._scrollToBottomHandler = null;

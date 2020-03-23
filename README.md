@@ -30,7 +30,7 @@ Copy three files - VirtualGridList.prefab, VirtualGridList.js, VirtualGridListBa
         spacingX?: Number               列间距 默认为3
         spacingY?: Number               行间距 默认为3
         columnNum?: Number              列数 默认为0，列数自动适配容器宽度
-        useVirtualList?: Boolean        是否启用虚拟列表 默认为true
+        useVirtualLayout?: Boolean        是否启用虚拟列表 默认为true
         emptyTip?: cc.String            没有数据显示提示
         cacheImage?: Boolean            通过virtualGridListBaseItem.loadImage()方法加载的
                                           图片，自动缓存，控件回收后，图片缓存将被全部释放。
@@ -86,7 +86,7 @@ Copy three files - VirtualGridList.prefab, VirtualGridList.js, VirtualGridListBa
 dataChanged() {
         this._super();
         const data = this.data;
-        this.loadImage(data.pic, this._showImg, this);
+        this.loadImage(data.pic, this._showImg, this); // 建议所有图片通过loadImage加载，可以自动缓存，并且异步按帧加载，不卡顿
         this.lbItemName.getComponent(cc.Label).string = data.name;
         this.lbDate.getComponent(cc.Label).string = data.date;
     }
@@ -119,29 +119,29 @@ initGridList(){
             spacingY: 5,
             emptyTip: '什么也没有啊',
             columnNum: this._currentColumn,
-            useVirtualList: true
+            useVirtualLayout: true
         });
         this._gridListController.addScrollToBottomEventHandler(this._nextPage, this); //注册翻页事件
 
-        this._showList();
+        this.showList();
     },
-  showList(pageNo, itemCount) {
-        pageNo = pageNo || 1；
-        itemCount = itemCount || 29;
-        let list = [];
-        let total = pageNo * itemCount;
-        let picIndex = 0;
-        for (let i = (pageNo - 1) * itemCount + 1; i <= total; i++) {
-            picIndex++;
-            let item = {
-                pic: "avatar/avatar_" + picIndex,
-                date: "3/9 12:00",
-                name: i + '_测试邮件'
-            }
-            list.push(item);
-        }
-        this._dataList = this._dataList ? this._dataList.concat(list) : list; // 滚动翻页需要合并数据数组
+showList(pageNo, itemCount) {
+      pageNo = pageNo || 1；
+      itemCount = itemCount || 29;
+      let list = [];
+      let total = pageNo * itemCount;
+      let picIndex = 0;
+      for (let i = (pageNo - 1) * itemCount + 1; i <= total; i++) {
+          picIndex++;
+          let item = {
+              pic: "avatar/avatar_" + picIndex,
+              date: "3/9 12:00",
+              name: i + '_测试邮件'
+          }
+          list.push(item);
+      }
+      this._dataList = this._dataList ? this._dataList.concat(list) : list; // 滚动翻页需要合并数据数组
 
-        this._gridListController.appendItemsToDisplayList(list);
-    }
+      this._gridListController.appendItemsToDisplayList(list);
+  }
 ```
