@@ -145,3 +145,5 @@ showList(pageNo, itemCount) {
       this._gridListController.appendItemsToDisplayList(list);
   }
 ```
+
+# 六 配合[CCButtonDropdownList](https://github.com/SituDana/CCButtonDropdownList-for-Cocos-Creator)可以扩展实现带有虚拟布局的下拉列表
