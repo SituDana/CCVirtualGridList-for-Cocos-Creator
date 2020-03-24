@@ -1,4 +1,4 @@
-cc.Class({
+let VirtualGridListBaseItem = cc.Class({
     extends: cc.Component,
 
     ctor(){
@@ -82,3 +82,5 @@ cc.Class({
         this.virtualGridList = null;
     }
 });
+
+module.exports = VirtualGridListBaseItem;

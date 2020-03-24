@@ -610,3 +610,5 @@ var VirtualGridList = cc.Class({
         lc.NotificationManager.targetOff(this);
     }
 });
+
+module.exports = VirtualGridList;
