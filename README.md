@@ -5,6 +5,7 @@ It's a customized GridList control for cocos creator, with the virtual scrolling
 
 Cocos Creator 引擎中提供了一个常规的滚动控制容器——ScrollView，实现基本滚动控制。但是缺少与之配合的List控件来实现虚拟布局功能，需要开发者手动扩展，在这里就提供一个实现虚拟布局功能的扩展列表控件，是参照Egret中的List控件的接口方式来实现。
 
+![demo_screenshot](images/demo_screenshot.png)
 
 # 二 虚拟布局原理
 虚拟布局的原理其实很简单，就是只加载和显示可视区域的列表内容，可视区域外的并没有实体控件被实例化。以滚动事件驱动，动态滚动并复用可视区域内的列表模板，切换数据显示，看上去像一个完整的列表在上下滚动，由于此种设计实例化控件少，所以内存占用极少，drawcall数量低而且稳定，所以现在被普遍应用。但是虚拟布局的核心不仅在于此，由于需要不停地切换显示内容，如何将素材转换的更快速，更平滑才是虚拟列表的关键。CCVirtualGridList在VirtualGridListBaseItem 中提供自己的加载图片的方法——loadImage，实现异步按帧加载，保证列表滚动流畅度，又能有效利用缓存。
@@ -145,5 +146,12 @@ showList(pageNo, itemCount) {
       this._gridListController.appendItemsToDisplayList(list);
   }
 ```
+- scene 中放置控件
+![demo_screenshot](images/demo_screenshot_2.png)
 
+- 自定义显示单元
+![demo_screenshot](images/demo_screenshot_3.png)
+
+- 最终效果
+![demo_screenshot](images/demo_screenshot_1.png)
 # 六 配合[CCButtonDropdownList](https://github.com/SituDana/CCButtonDropdownList-for-Cocos-Creator)可以扩展实现带有虚拟布局的下拉列表
