@@ -34,6 +34,8 @@ var VirtualGridList = cc.Class({
 
         _scrollToBottomHandler: null, //滑动到底部回调事件
         _scrollToBottomThisObj: null, //滑动到底部回调事件this对象
+        _selectOneItemHandler: null,    // 选中回调事件
+        _selectOneItemThisObj: null,    // 选中事件this 对象
         _dataList: null, // 数据列表
         _items: null, // 显示列表items
     },
@@ -220,6 +222,16 @@ var VirtualGridList = cc.Class({
     },
 
     /**
+     * 选中事件回调方法
+     * @param {Function} handler 选中事件回调函数 function()
+     * @param {*} thisObj 回调函数this对象
+     */
+    addSelectOneItemEventHandler(handler, thisObj) {
+        this._selectOneItemHandler = handler;
+        this._selectOneItemThisObj = thisObj;
+    },
+
+    /**
      * 刷新列表显示, 条数不变，修改数据，刷新显示
      * @param {any[]} some 刷新指定单元
      */
@@ -245,7 +257,7 @@ var VirtualGridList = cc.Class({
         }
     },
 
-    _onVirtualLayoutScrolling(){
+    _onVirtualLayoutScrolling() {
         let items = this._items;
         const buffer = this._bufferZone;
         const isDown = this._content.y < this._lastContentPosY; // 滚动方向 下减上加
@@ -304,6 +316,11 @@ var VirtualGridList = cc.Class({
         }
     },
 
+    _onSelectOneItem(data){
+        if (this._selectOneItemHandler) {
+            this._selectOneItemHandler.call(this._selectOneItemThisObj, data);
+        }
+    },
 
     /**
      * 创建固定增量的items
@@ -361,12 +378,31 @@ var VirtualGridList = cc.Class({
     _onItemTouched(event) {
         let target = event.target;
         let com = target.getComponent(this.itemComponentName);
+        this._selectOne(com, true);
+    },
+
+    setSelectionWithoutCallback(data){
+        let item = this.findItemDisplayByData(data);
+        item && this._selectOne(item.getComponent(this.itemComponentName), false);
+    },
+
+    setSelectionAndCallback(data){
+        let item = this.findItemDisplayByData(data);
+        item && this._selectOne(item.getComponent(this.itemComponentName), true);
+    },
+
+    _selectOne(com, triggerOutsideCallback){
         if (this.selectedItemData && this.selectedItemData != com.data) {
             let item = this.findItemDisplayByData(this.selectedItemData);
-            item && item.getComponent(this.itemComponentName).onUnselect();
+            if(item){
+                item.getComponent(this.itemComponentName).setSelectStatus(false);
+                item.getComponent(this.itemComponentName).onUnselect();
+            }
         }
         this.selectedItemData = com.data;
+        com.setSelectStatus(true);
         com.onSelect();
+        true === triggerOutsideCallback && this._onSelectOneItem(com.data);
     },
 
     /**
@@ -379,11 +415,10 @@ var VirtualGridList = cc.Class({
             let list = this._items;
             let comName = this.itemComponentName;
             for (let item of list) {
-                if (item.getComponent(comName).data == data){
+                if (item.getComponent(comName).data == data) {
                     return item;
                 }
             }
-            item = null;
             list = null;
             return null;
         } else {
@@ -474,7 +509,7 @@ var VirtualGridList = cc.Class({
      * 获取item在scrView上的位置
      * @param {cc.Prefab} item 显示单元
      * @returns {Vec3 | Vec2} 显示单元位置
-     */ 
+     */
     _getPositionInView(item) {
         let worldPos = item.parent.convertToWorldSpaceAR(item.position);
         let viewPos = this._gridList.node.convertToNodeSpaceAR(worldPos);
@@ -590,7 +625,7 @@ var VirtualGridList = cc.Class({
      * 清理回收所有显示单元
      */
     _disposeItems() {
-        this._gridList.content.destroyAllChildren();
+        cc.isValid(this._content) && this._gridList.content.destroyAllChildren();
         this._items = null;
     },
 
@@ -603,6 +638,8 @@ var VirtualGridList = cc.Class({
         }
         this._scrollToBottomHandler = null;
         this._scrollToBottomThisObj = null;
+        this._selectOneItemHandler = null;
+        this._selectOneItemThisObj = null;
         this._disposeItems();
         this._dataList = null;
         this._imgMap && this._imgMap.clear();

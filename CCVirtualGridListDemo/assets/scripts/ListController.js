@@ -16,7 +16,7 @@ cc.Class({
     properties: {
         gridList: cc.Node,
         itemTemplate: cc.Prefab,
-
+        lbSelectOne: cc.Label,
         labelChangeColumn: cc.Label
     },
 
@@ -38,8 +38,12 @@ cc.Class({
             useVirtualLayout: true
         });
         this._gridListController.addScrollToBottomEventHandler(this._nextPage, this);
-
+        this._gridListController.addSelectOneItemEventHandler(this._onSelectOneItem, this);
         this._showList(this._pageNo);
+    },
+
+    _onSelectOneItem(data){
+        this.lbSelectOne.getComponent(cc.Label).string = JSON.stringify(data);
     },
 
     onBtnScrollToTop_Tap() {

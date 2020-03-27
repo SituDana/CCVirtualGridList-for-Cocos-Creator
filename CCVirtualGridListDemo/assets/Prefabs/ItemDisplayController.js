@@ -35,14 +35,12 @@ cc.Class({
      */
     onSelect(){
         console.log('select _' + this.$itemIndex);
-        this.data.$select = true;
 
         this.updateSelectionStatus();
     },
 
     onUnselect(){
         console.log('unselect _' + this.$itemIndex);
-        this.data.$select = false;
         
         this.updateSelectionStatus();
     },

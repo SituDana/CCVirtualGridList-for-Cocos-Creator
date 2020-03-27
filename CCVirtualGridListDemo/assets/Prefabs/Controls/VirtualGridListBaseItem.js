@@ -53,6 +53,10 @@ let VirtualGridListBaseItem = cc.Class({
     onUnselect(){
     },
 
+    setSelectStatus(selected){
+        this.data && (this.data.$select = selected);
+    },
+
     /**
      * 子类可覆盖，当控件滑动进入可视区的时候触发
      */
